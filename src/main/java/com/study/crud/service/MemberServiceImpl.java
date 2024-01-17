@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
         if (memberEntity.getPassword().equals(loginDTO.getPassword())) {
             return new ResponseEntity<>("success", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
         }
 
     }
