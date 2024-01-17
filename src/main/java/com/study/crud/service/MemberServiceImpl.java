@@ -2,6 +2,7 @@ package com.study.crud.service;
 
 import com.study.crud.domain.Member;
 import com.study.crud.domain.MemberRole;
+import com.study.crud.dto.LoginDTO;
 import com.study.crud.dto.SignUpFormDTO;
 import com.study.crud.repository.MemberRepository;
 import com.study.crud.service.interfaces.MemberService;
@@ -21,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public ResponseEntity signup(SignUpFormDTO formDTO) {
+    public ResponseEntity<String> signup(SignUpFormDTO formDTO) {
 
         Optional<Member> member = memberRepository.findById(formDTO.getId());
 
@@ -35,9 +36,27 @@ public class MemberServiceImpl implements MemberService {
 
             memberRepository.save(newMember);
 
-            return new ResponseEntity("success", HttpStatus.OK);
+            return new ResponseEntity<>("success", HttpStatus.OK);
         } else {
-            return new ResponseEntity("fail", HttpStatus.OK);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
+    }
+
+    @Override
+    public ResponseEntity<String> login(LoginDTO loginDTO) {
+
+        Optional<Member> member = memberRepository.findById(loginDTO.getId());
+        Member memberEntity = member.orElse(null);
+
+        if (memberEntity==null) {
+            return new ResponseEntity<>("해당 아이디를 가진 회원이 존재하지 않습니다.", HttpStatus.OK);
+        }
+
+        if (memberEntity.getPassword().equals(loginDTO.getPassword())) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 }
