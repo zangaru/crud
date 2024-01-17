@@ -12,9 +12,9 @@
             <button>회원가입</button>
         </a>
         <a th:href="@{/signin}">
-            <button>로그인</button>
+            <button id="loginButton">로그인</button>
         </a>
-        <button th:onclick='logout()'>로그아웃</button>
+        <button id="logoutButton" th:onclick='logout()'>로그아웃</button>
         <a th:href="@{/list}">
             <button>글목록</button>
         </a>
@@ -30,11 +30,24 @@
     function logout(){
         if (localStorage.getItem('id') != null) {
             localStorage.removeItem('id');
-            alert('로그아웃 완료');
+            alert('로그아웃 되었습니다.');
+            location.href = "/"
         } else {
             alert('로그인하세요!');
         }
     }
+
+    /*로그인 여부에 따른 메뉴 출력*/
+    $(document).ready(function() {
+        const localStorageId = localStorage.getItem('id');
+        if (localStorageId != null) {
+            $('#loginButton').hide();
+            $('#logoutButton').show();
+        } else {
+            $('#loginButton').show();
+            $('#logoutButton').hide();
+        }
+    });
 </script>
 </body>
 </html>
