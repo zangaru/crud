@@ -1,5 +1,6 @@
 package com.study.crud.domain;
 
+import com.study.crud.dto.UpdateFormDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id", nullable = false)
     private Long id;
 
@@ -33,8 +34,8 @@ public class Board {
     @Column(name = "board_admin_views", nullable = false)
     private int adminViews;
 
-    @Column(name = "board_member_views", nullable = false)
-    private int memberViews;
+    @Column(name = "board_user_views", nullable = false)
+    private int userViews;
 
     @Column(name = "board_likes", nullable = false)
     private int likes;
@@ -43,4 +44,19 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+
+    public void countAdmin() {
+        this.adminViews++;
+    }
+
+    public void countUser() {
+        this.userViews++;
+    }
+
+    public void update(UpdateFormDTO updateFormDTO) {
+        this.title = updateFormDTO.getTitle();
+        this.content = updateFormDTO.getContent();
+        this.updatedAt = LocalDateTime.now();
+    }
 }

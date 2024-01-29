@@ -55,6 +55,7 @@
                         if (response == 'success') {
                             alert('로그인 성공')
                             localStorage.setItem('id', id);
+                            document.cookie = `id=${id}`
                             location.href = "/"
                         } else {
                             alert(response);

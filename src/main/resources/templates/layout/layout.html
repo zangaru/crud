@@ -15,8 +15,8 @@
             <button id="loginButton">로그인</button>
         </a>
         <button id="logoutButton" th:onclick='logout()'>로그아웃</button>
-        <a th:href="@{/list}">
-            <button>글목록</button>
+        <a th:href="@{/new}">
+            <button id="addButton">글작성</button>
         </a>
     </nav>
     <div id="content">
@@ -29,6 +29,7 @@
 <script th:inline="javascript">
     function logout(){
         if (localStorage.getItem('id') != null) {
+            document.cookie = 'id=; expires=' + new Date(0).toUTCString() + '; path=/;'; //쿠키 만료 -> 삭제
             localStorage.removeItem('id');
             alert('로그아웃 되었습니다.');
             location.href = "/"
@@ -43,9 +44,11 @@
         if (localStorageId != null) {
             $('#loginButton').hide();
             $('#logoutButton').show();
+            $('#addButton').show();
         } else {
             $('#loginButton').show();
             $('#logoutButton').hide();
+            $('#addButton').hide();
         }
     });
 </script>
